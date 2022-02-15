@@ -43,4 +43,11 @@ steps:
     artifact: 'drop'
     publishLocation: 'pipeline'
 
+- task: AzureFunctionApp@1
+  inputs:
+    azureSubscription: 'azurerm-sc'
+    appType: 'functionApp'
+    appName: '$(appName)'
+    package: '$(build.artifactstagingdirectory)/$(appName)'
+    deploymentMethod: 'auto'
 
