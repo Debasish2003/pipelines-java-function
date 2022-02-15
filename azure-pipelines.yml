@@ -11,10 +11,10 @@ pool:
 
 variables:
   # the name of the service connection that you created above
-  serviceConnectionToAzure: name-of-your-service-connection
+  serviceConnectionToAzure: azurerm-sc
   # the name of your web app here is the same one you used above
   # when you created the web app using the Azure CLI
-  appName: my-app-name
+  appName: my-app-name-func-15feb
   # the name of your functionApp is what you provided as
   # stagingDirectory in pom.xml
   functionAppName: 'javafunctions'
@@ -30,3 +30,25 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)/target/azure-functions/${functionAppName}'
+    Contents: '**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(build.artifactstagingdirectory)'
+    artifact: 'drop'
+    publishLocation: 'pipeline'
+
+- task: AzureFunctionApp@1
+  inputs:
+    azureSubscription: 'azurerm-sc'
+    appType: 'functionApp'
+    appName: 'my-app-name-func-15feb'
+    package: '$(build.artifactstagingdirectory)/$(appName)'
+    deploymentMethod: 'auto'
+
+
