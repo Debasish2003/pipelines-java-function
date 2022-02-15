@@ -48,6 +48,5 @@ steps:
     azureSubscription: 'azurerm-sc'
     appType: 'functionApp'
     appName: '$(appName)'
-    package: '$(build.artifactstagingdirectory)/$(appName)'
+    package: '**/*.jar'
     deploymentMethod: 'auto'
-
