@@ -33,7 +33,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)/target/azure-functions/${functionAppName}'
+    SourceFolder: '$(system.defaultworkingdirectory)'
     Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)'
 
@@ -42,13 +42,5 @@ steps:
     targetPath: '$(build.artifactstagingdirectory)'
     artifact: 'drop'
     publishLocation: 'pipeline'
-
-- task: AzureFunctionApp@1
-  inputs:
-    azureSubscription: 'azurerm-sc'
-    appType: 'functionApp'
-    appName: 'my-app-name-func-15feb'
-    package: '$(build.artifactstagingdirectory)/$(appName)'
-    deploymentMethod: 'auto'
 
 
