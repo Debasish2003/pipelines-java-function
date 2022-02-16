@@ -48,4 +48,4 @@ steps:
     azureSubscription: 'azurerm-sc'
     appType: 'functionApp'
     appName: '$(appName)'
-    package: '$(build.artifactstagingdirectory)/drop/*.jar'
+    package: '$(build.artifactstagingdirectory)/$(appName)'
